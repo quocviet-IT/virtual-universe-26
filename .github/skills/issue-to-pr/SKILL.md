@@ -22,17 +22,37 @@ same `gh` commands you ran by hand in Section 1.
 3. Read the issue and the code it mentions: `gh issue view <n>`
 4. Create a branch: `git switch -c fix/issue-<n>`
 5. Make the smallest change that fixes the issue, and run the project's tests
-   if it has any.
-6. Show the changes and obtain approval before committing, pushing explicitly to
+   if it has any. When the fix depends on library or API documentation, use the
+   Context7 Expert agent and Context7 connector as described below.
+6. Ask the security-review agent to review your changes. Fix any HIGH or
+   CRITICAL findings, and list the others in the pull request body.
+7. Show the changes and obtain approval before committing, pushing explicitly to
    the verified fork remote, and opening
    a draft pull request that closes the issue. Preserve any learner skill edits
    and include them only with approval:
        `gh pr create --draft --title "Fix #<n>: <issue title>" --body "<body>"`
-        Start the body with "Closes #<n>", then add a short summary and a
-        "How to test" section with the exact commands a reviewer can run.
-7. Ask before commenting on the issue with what changed and how to test it.
+        Start the body with "Closes #<n>", then add a short summary, the
+        security-review findings other than HIGH or CRITICAL, a "How to test"
+        section with the exact commands a reviewer can run, and relevant public
+        documentation source links when Context7 was used.
+8. Ask before commenting on the issue with what changed and how to test it.
    Report the exact issue, PR, and branch. Leave this PR branch checked out so
    the learner can review it in the same session; do not switch branches.
+
+## Library and API documentation
+
+- When a fix needs current library or API documentation, use the Context7
+  Expert agent and the Context7 connector. Resolve the library ID with
+  `resolve-library-id`, then retrieve the relevant documentation with
+  `query-docs`, unless the user already supplied a Context7 library ID.
+- Send only public documentation queries to Context7. Do not send repository
+  files, source code, issue contents, secrets, or other private information.
+- Cite the relevant public documentation source URLs returned by Context7 in
+  the draft pull request description.
+- If the Context7 Expert agent or connector tools are unavailable, say so
+  plainly and do not claim a documentation lookup succeeded. Do not substitute
+  web search or memory for the required Context7 lookup; ask how the learner
+  wants to proceed before relying on undocumented library or API behavior.
 
 ## Rules
 
